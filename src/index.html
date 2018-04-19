@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bouvet Blockchain</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script src="script.js"></script>
+</head>
+
+<body style="margin-bottom: 220px;">
+
+    <div class="container">
+        <h1>BouvetCoin</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="difficulty">Vanskelighetsgrad</label>
+                    <select class="form-control" id="difficulty" aria-describedby="difficultyHelp">
+                        <option>1</option>
+                        <option>2</option>
+                        <option selected="selected">3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                    <small id="difficultyHelp" class="form-text text-muted">Hvor vanskelig skal det være å mine en ny blokk?</small>
+                </div>
+                <div class="form-group">
+                    <label for="data">Data:</label>
+                    <input type="text" class="form-control" id="data" aria-describedby="dataHelp">
+                    <small id="dataHelp" class="form-text text-muted">Data du ønsker å legge til i blokkjeden</small>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-lg" id="startmining">Start mining</button>
+                    <button class="btn btn-secondary btn-lg" id="validate">Sjekk gyldighet</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label>Lengde på blokkjede: <span id="length">0</span></label>
+                <div><pre class="prettyprint" id="blokkjede"></pre></div>
+            </div>
+        </div>
+    </div>
+    <div id="log" style="position: fixed;font-family: monospace;color: white;background: black;width: 100%;height: 200px;left: 0;bottom: 0;overflow-y: scroll;">
+    </div>
+    
+</body>
+
+</html>
