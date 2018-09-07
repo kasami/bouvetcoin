@@ -72,6 +72,13 @@ class BlockChain {
             console.log("Expected: " + this.chain[0].calculateHash());
             return false;
         }
+        
+        if (this.chain[0].hash.substring(0, difficulty) !== new Array(difficulty + 1).join("0")) {
+            console.log("Ugyldig genesis block hash");
+            console.log("Hash....: " + this.chain[0].hash);
+            console.log("Expected: Starting with " + this.difficulty + " zeros.");
+            return false;
+        }
 
         for(let i = 1; i < this.chain.length; i++) {
             if (this.chain[i].previousHash !== this.chain[i - 1].hash) {
@@ -86,6 +93,12 @@ class BlockChain {
                 console.log("Expected: " + this.chain[i].calculateHash());
                 return false;
             }
+            if (this.chain[i].hash.substring(0, difficulty) !== new Array(difficulty + 1).join("0")) {
+                console.log("Ugyldig hash i index " + i);
+                console.log("Hash....: " + this.chain[i].hash);
+                console.log("Expected: Starting with " + this.difficulty + " zeros.");
+                return false;
+            }
         }
         return true;
     }
@@ -96,7 +109,19 @@ function updateUI() {
         return;
     }
     jQuery("#length").text(window.bouvetCoin.getNextIndex());
-    document.getElementById('blokkjede').innerHTML = JSON.stringify(window.bouvetCoin.chain, null, 2);
+    document.getElementById('blokkjede').value = JSON.stringify(window.bouvetCoin.chain, null, 2);
+}
+
+function readChain() {
+     var parsed = JSON.parse(document.getElementById('blokkjede').value);
+     window.bouvetCoin.chain = [];
+     parsed.forEach(element => {
+        var tempBlock = new Block(element['index'], element['data'], element['previousHash']);
+        tempBlock.timestamp = element['timestamp'];
+        tempBlock.hash = element['hash'];
+        tempBlock.nonce = element['nonce'];
+        window.bouvetCoin.chain.push(tempBlock);
+     });
 }
 
 
@@ -116,18 +141,25 @@ $( document ).ready(function() {
     window.bouvetCoin = new BlockChain();
 
     jQuery("#difficulty").change(function () {
+        readChain();
         var diff = jQuery("#difficulty").val();
         console.log("Endrer vanskelighetsgraden på mining til " + diff);
         bouvetCoin.difficulty = parseInt(diff);
     })
 
     jQuery("#validate").click(function () {
+        readChain();
         if (bouvetCoin.isChainValid()) {
             console.log("Blokkjeden er gyldig!");
         }
     })
 
+    jQuery("#reset").click(function () {
+        window.location.reload(false);
+    })
+
     jQuery("#startmining").click(function () {
+        readChain();
         var data = $("#data").val();
         $("#data").val("");
         jQuery("#startmining").attr("disabled", true);
